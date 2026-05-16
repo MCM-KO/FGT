@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>ProgressDialog</class>
+ <widget class="QDialog" name="ProgressDialog">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>480</width>
+    <height>180</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>正在处理</string>
+  </property>
+  <property name="styleSheet">
+   <string notr="true">
+QDialog {
+    background-color: #1a1429;
+    font-family: &quot;Microsoft YaHei&quot;;
+    color: #f4e7c3;
+    border: 2px solid #9f7a36;
+    border-radius: 16px;
+}
+
+/* 标题 */
+#titleLabel {
+    font-size: 20px;
+    font-weight: 700;
+    color: #f8dd95;
+    letter-spacing: 1px;
+}
+
+/* 进度条整体 */
+QProgressBar {
+    border: 2px solid #8e6a2b;
+    border-radius: 11px;
+    background-color: #2a1f3f;
+    height: 24px;
+    text-align: center;
+    color: #f8e8bf;
+    font-weight: 700;
+}
+
+/* 进度条块 */
+QProgressBar::chunk {
+    border-radius: 9px;
+    background-color: qlineargradient(x1:0, y1:0, x2:1, y2:0,
+                                      stop:0 #7f4bb6, stop:0.5 #b079e2, stop:1 #f1c46b);
+    margin: 1px;
+}
+
+/* 按钮 */
+QPushButton {
+    background-color: #5f3e9b;
+    color: #fff4d6;
+    border: 1px solid #cba75e;
+    padding: 8px 22px;
+    border-radius: 10px;
+    font-weight: 700;
+}
+
+QPushButton:hover {
+    background-color: #7b56be;
+    border: 1px solid #f1d28d;
+}
+
+QPushButton:pressed {
+    background-color: #493173;
+}
+   </string>
+  </property>
+  <layout class="QVBoxLayout" name="verticalLayout">
+   <property name="spacing">
+    <number>16</number>
+   </property>
+   <property name="leftMargin">
+    <number>22</number>
+   </property>
+   <property name="topMargin">
+    <number>22</number>
+   </property>
+   <property name="rightMargin">
+    <number>22</number>
+   </property>
+   <property name="bottomMargin">
+    <number>22</number>
+   </property>
+   <item>
+    <layout class="QHBoxLayout" name="horizontalLayout">
+     <item>
+      <widget class="QLabel" name="titleLabel">
+       <property name="text">
+        <string>正在转码中......</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QLabel" name="label">
+       <property name="text">
+        <string>放小人位置</string>
+       </property>
+      </widget>
+     </item>
+    </layout>
+   </item>
+   <item>
+    <widget class="QProgressBar" name="percentage">
+     <property name="value">
+      <number>0</number>
+     </property>
+     <property name="textVisible">
+      <bool>true</bool>
+     </property>
+    </widget>
+   </item>
+   <item>
+    <layout class="QHBoxLayout" name="buttonLayout">
+     <item>
+      <spacer name="horizontalSpacer">
+       <property name="orientation">
+        <enum>Qt::Orientation::Horizontal</enum>
+       </property>
+       <property name="sizeHint" stdset="0">
+        <size>
+         <width>0</width>
+         <height>0</height>
+        </size>
+       </property>
+      </spacer>
+     </item>
+     <item>
+      <widget class="QPushButton" name="cancelButton">
+       <property name="text">
+        <string>取消</string>
+       </property>
+      </widget>
+     </item>
+    </layout>
+   </item>
+  </layout>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>

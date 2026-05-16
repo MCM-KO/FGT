@@ -1,0 +1,557 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>SetupWindow</class>
+ <widget class="QMainWindow" name="SetupWindow">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>880</width>
+    <height>620</height>
+   </rect>
+  </property>
+  <property name="font">
+   <font>
+    <family>Microsoft YaHei</family>
+    <pointsize>-1</pointsize>
+   </font>
+  </property>
+  <property name="windowTitle">
+   <string>Setup Wizard</string>
+  </property>
+  <property name="styleSheet">
+   <string notr="true">QMainWindow, QWidget {
+    background-color: #24233a;
+    color: #f2f6ff;
+    font-family: &quot;Microsoft YaHei&quot;;
+    font-size: 13px;
+}
+
+QWidget#centralwidget {
+    background-color: #24233a;
+}
+
+QFrame#headerFrame {
+    background-color: #2a2942;
+    border: 1px solid rgba(188, 201, 242, 0.34);
+    border-radius: 12px;
+}
+
+QLabel#titleLabel {
+    font-size: 24px;
+    font-weight: 700;
+    color: #ffffff;
+}
+
+QLabel#subtitleLabel {
+    font-size: 14px;
+    color: #bcc9f2;
+}
+
+QFrame#stepFrame, QFrame#contentFrame {
+    background-color: #27263f;
+    border: 1px solid rgba(188, 201, 242, 0.34);
+    border-radius: 12px;
+}
+
+QLabel[class=&quot;stepLabel&quot;] {
+    color: #f2f6ff;
+    font-size: 13px;
+}
+
+QLabel#stepCurrent {
+    color: #ffffff;
+    font-weight: 700;
+}
+
+QProgressBar {
+    border: 1px solid #6675a8;
+    border-radius: 8px;
+    text-align: center;
+    background-color: #2f2d45;
+    color: #e2e8ff;
+}
+
+QProgressBar::chunk {
+    border-radius: 7px;
+    background: qlineargradient(x1:0, y1:0, x2:1, y2:0,
+                                stop:0 #6f56ff, stop:1 #8f7bff);
+}
+
+QLineEdit {
+    background-color: #2f2d45;
+    border: 1px solid #6675a8;
+    border-radius: 8px;
+    padding: 6px 10px;
+    color: #f2f6ff;
+}
+
+QCheckBox {
+    color: #f2f6ff;
+    spacing: 8px;
+}
+
+QPushButton {
+    background-color: #4f46e5;
+    color: #ffffff;
+    border: none;
+    border-radius: 9px;
+    padding: 8px 16px;
+    font-weight: 600;
+}
+
+QPushButton:hover {
+    background-color: #5d54f0;
+}
+
+QPushButton:pressed {
+    background-color: #443bc7;
+}
+
+QPushButton#cancelButton {
+    background-color: #3a3854;
+}
+
+QPushButton#cancelButton:hover {
+    background-color: #4a4866;
+}</string>
+  </property>
+  <widget class="QWidget" name="centralwidget">
+   <layout class="QVBoxLayout" name="verticalLayout_5">
+    <item>
+     <widget class="QStackedWidget" name="stackedWidget">
+      <property name="currentIndex">
+       <number>0</number>
+      </property>
+      <widget class="QWidget" name="page">
+       <layout class="QVBoxLayout" name="verticalLayout">
+        <item>
+         <widget class="QFrame" name="headerFrame">
+          <layout class="QVBoxLayout" name="verticalLayout_2">
+           <property name="leftMargin">
+            <number>18</number>
+           </property>
+           <property name="topMargin">
+            <number>14</number>
+           </property>
+           <property name="rightMargin">
+            <number>18</number>
+           </property>
+           <property name="bottomMargin">
+            <number>14</number>
+           </property>
+           <item>
+            <widget class="QLabel" name="titleLabel">
+             <property name="text">
+              <string>首次启动，欢迎来到FGT的配置界面</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QLabel" name="subtitleLabel">
+             <property name="text">
+              <string>该向导将会引导帮助你实现配置过程</string>
+             </property>
+            </widget>
+           </item>
+          </layout>
+         </widget>
+        </item>
+        <item>
+         <widget class="QFrame" name="stepFrame">
+          <layout class="QVBoxLayout" name="verticalLayout_3">
+           <property name="spacing">
+            <number>8</number>
+           </property>
+           <property name="leftMargin">
+            <number>14</number>
+           </property>
+           <property name="topMargin">
+            <number>12</number>
+           </property>
+           <property name="rightMargin">
+            <number>14</number>
+           </property>
+           <property name="bottomMargin">
+            <number>12</number>
+           </property>
+           <item>
+            <widget class="QLabel" name="stepCurrent">
+             <property name="text">
+              <string>步骤一：添加环境变量</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QProgressBar" name="setupProgressBar">
+             <property name="value">
+              <number>25</number>
+             </property>
+             <property name="textVisible">
+              <bool>false</bool>
+             </property>
+            </widget>
+           </item>
+          </layout>
+         </widget>
+        </item>
+        <item>
+         <widget class="QFrame" name="contentFrame">
+          <layout class="QVBoxLayout" name="verticalLayout_4">
+           <property name="spacing">
+            <number>12</number>
+           </property>
+           <property name="leftMargin">
+            <number>18</number>
+           </property>
+           <property name="topMargin">
+            <number>16</number>
+           </property>
+           <property name="rightMargin">
+            <number>18</number>
+           </property>
+           <property name="bottomMargin">
+            <number>16</number>
+           </property>
+           <item>
+            <widget class="QStackedWidget" name="setupStack">
+             <property name="currentIndex">
+              <number>0</number>
+             </property>
+             <widget class="QWidget" name="pageAddPath">
+              <layout class="QVBoxLayout" name="verticalLayout_pageAddPath">
+               <property name="spacing">
+                <number>12</number>
+               </property>
+               <item>
+                <layout class="QHBoxLayout" name="horizontalLayout_3">
+                 <item>
+                  <widget class="QCheckBox" name="addff_y">
+                   <property name="text">
+                    <string>将ffmpeg添加至环境变量</string>
+                   </property>
+                  </widget>
+                 </item>
+                </layout>
+               </item>
+               <item>
+                <layout class="QHBoxLayout" name="horizontalLayout_2">
+                 <item>
+                  <widget class="QCheckBox" name="addff_n">
+                   <property name="text">
+                    <string>不，我自己设置</string>
+                   </property>
+                  </widget>
+                 </item>
+                </layout>
+               </item>
+               <item>
+                <widget class="QLabel" name="label">
+                 <property name="text">
+                  <string>若需要添加环境变量，则请完成下列配置，否则请忽略</string>
+                 </property>
+                </widget>
+               </item>
+               <item>
+                <layout class="QHBoxLayout" name="horizontalLayout_4">
+                 <item>
+                  <widget class="QLabel" name="label_2">
+                   <property name="text">
+                    <string>选择安装ffmpeg版本</string>
+                   </property>
+                  </widget>
+                 </item>
+                 <item>
+                  <widget class="QComboBox" name="ffversion">
+                   <item>
+                    <property name="text">
+                     <string>ffmpeg-8.0.1-essentials_build.7z</string>
+                    </property>
+                   </item>
+                   <item>
+                    <property name="text">
+                     <string>ffmpeg-8.0.1-essentials_build.zip</string>
+                    </property>
+                   </item>
+                   <item>
+                    <property name="text">
+                     <string>ffmpeg-8.0.1-full_build.7z</string>
+                    </property>
+                   </item>
+                   <item>
+                    <property name="text">
+                     <string>ffmpeg-8.0.1-full_build-shared.7z</string>
+                    </property>
+                   </item>
+                  </widget>
+                 </item>
+                </layout>
+               </item>
+               <item>
+                <layout class="QHBoxLayout" name="horizontalLayout_8">
+                 <item>
+                  <widget class="QLabel" name="label_3">
+                   <property name="text">
+                    <string>选择安装路径</string>
+                   </property>
+                  </widget>
+                 </item>
+                 <item>
+                  <widget class="QPlainTextEdit" name="input_file_1">
+                   <property name="readOnly">
+                    <bool>false</bool>
+                   </property>
+                  </widget>
+                 </item>
+                 <item>
+                  <widget class="QPushButton" name="browse_1">
+                   <property name="text">
+                    <string>浏览</string>
+                   </property>
+                  </widget>
+                 </item>
+                </layout>
+               </item>
+               <item>
+                <spacer name="verticalSpacer">
+                 <property name="orientation">
+                  <enum>Qt::Orientation::Vertical</enum>
+                 </property>
+                 <property name="sizeHint" stdset="0">
+                  <size>
+                   <width>20</width>
+                   <height>150</height>
+                  </size>
+                 </property>
+                </spacer>
+               </item>
+               <item>
+                <spacer name="verticalSpacer_pageAddPath">
+                 <property name="orientation">
+                  <enum>Qt::Orientation::Vertical</enum>
+                 </property>
+                 <property name="sizeHint" stdset="0">
+                  <size>
+                   <width>20</width>
+                   <height>40</height>
+                  </size>
+                 </property>
+                </spacer>
+               </item>
+              </layout>
+             </widget>
+             <widget class="QWidget" name="pageInstallPath">
+              <layout class="QVBoxLayout" name="verticalLayout_pageInstallPath">
+               <property name="spacing">
+                <number>12</number>
+               </property>
+               <item>
+                <layout class="QHBoxLayout" name="horizontalLayout_6">
+                 <item>
+                  <widget class="QLabel" name="label_6">
+                   <property name="text">
+                    <string>选择浏览默认路径</string>
+                   </property>
+                  </widget>
+                 </item>
+                </layout>
+               </item>
+               <item>
+                <layout class="QHBoxLayout" name="horizontalLayout_16">
+                 <item>
+                  <widget class="QPlainTextEdit" name="input_file_2">
+                   <property name="readOnly">
+                    <bool>false</bool>
+                   </property>
+                  </widget>
+                 </item>
+                 <item>
+                  <widget class="QPushButton" name="browse_2">
+                   <property name="text">
+                    <string>浏览</string>
+                   </property>
+                  </widget>
+                 </item>
+                </layout>
+               </item>
+               <item>
+                <layout class="QHBoxLayout" name="horizontalLayout_7">
+                 <item>
+                  <widget class="QLabel" name="label_7">
+                   <property name="text">
+                    <string>选择默认存储路径</string>
+                   </property>
+                  </widget>
+                 </item>
+                </layout>
+               </item>
+               <item>
+                <layout class="QHBoxLayout" name="horizontalLayout_10">
+                 <item>
+                  <widget class="QPlainTextEdit" name="input_file_3">
+                   <property name="readOnly">
+                    <bool>false</bool>
+                   </property>
+                  </widget>
+                 </item>
+                 <item>
+                  <widget class="QPushButton" name="browse_3">
+                   <property name="text">
+                    <string>浏览</string>
+                   </property>
+                  </widget>
+                 </item>
+                </layout>
+               </item>
+               <item>
+                <spacer name="verticalSpacer_pageInstallPath">
+                 <property name="orientation">
+                  <enum>Qt::Orientation::Vertical</enum>
+                 </property>
+                 <property name="sizeHint" stdset="0">
+                  <size>
+                   <width>20</width>
+                   <height>400</height>
+                  </size>
+                 </property>
+                </spacer>
+               </item>
+              </layout>
+             </widget>
+             <widget class="QWidget" name="pageWelcome">
+              <layout class="QVBoxLayout" name="verticalLayout_pageWelcome">
+               <property name="spacing">
+                <number>12</number>
+               </property>
+               <item>
+                <layout class="QHBoxLayout" name="horizontalLayout_9">
+                 <item>
+                  <widget class="QCheckBox" name="isink">
+                   <property name="text">
+                    <string>配置完成后为我创建桌面快捷方式</string>
+                   </property>
+                  </widget>
+                 </item>
+                </layout>
+               </item>
+               <item>
+                <layout class="QHBoxLayout" name="horizontalLayout_5">
+                 <item>
+                  <widget class="QLabel" name="label_4">
+                   <property name="text">
+                    <string>是否确认开始配置（添加环境变量的过程约耗时数分钟）</string>
+                   </property>
+                  </widget>
+                 </item>
+                 <item>
+                  <widget class="QPushButton" name="start_configuration">
+                   <property name="text">
+                    <string>开始配置</string>
+                   </property>
+                  </widget>
+                 </item>
+                </layout>
+               </item>
+               <item>
+                <layout class="QHBoxLayout" name="horizontalLayout_14">
+                 <item>
+                  <widget class="QLabel" name="label_5">
+                   <property name="text">
+                    <string>配置中</string>
+                   </property>
+                  </widget>
+                 </item>
+                </layout>
+               </item>
+               <item>
+                <widget class="QPlainTextEdit" name="place_error"/>
+               </item>
+               <item>
+                <widget class="QProgressBar" name="progressBar">
+                 <property name="value">
+                  <number>0</number>
+                 </property>
+                </widget>
+               </item>
+               <item>
+                <layout class="QHBoxLayout" name="horizontalLayout_15"/>
+               </item>
+               <item>
+                <spacer name="verticalSpacer_pageWelcome">
+                 <property name="orientation">
+                  <enum>Qt::Orientation::Vertical</enum>
+                 </property>
+                 <property name="sizeHint" stdset="0">
+                  <size>
+                   <width>20</width>
+                   <height>40</height>
+                  </size>
+                 </property>
+                </spacer>
+               </item>
+              </layout>
+             </widget>
+            </widget>
+           </item>
+          </layout>
+         </widget>
+        </item>
+       </layout>
+      </widget>
+     </widget>
+    </item>
+    <item>
+     <layout class="QHBoxLayout" name="horizontalLayout">
+      <property name="spacing">
+       <number>10</number>
+      </property>
+      <item>
+       <spacer name="horizontalSpacer">
+        <property name="orientation">
+         <enum>Qt::Orientation::Horizontal</enum>
+        </property>
+        <property name="sizeHint" stdset="0">
+         <size>
+          <width>40</width>
+          <height>20</height>
+         </size>
+        </property>
+       </spacer>
+      </item>
+      <item>
+       <widget class="QPushButton" name="startButton">
+        <property name="text">
+         <string>Finish</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QPushButton" name="backButton">
+        <property name="text">
+         <string>Back</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QPushButton" name="nextButton">
+        <property name="text">
+         <string>Next</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QPushButton" name="cancelButton">
+        <property name="text">
+         <string>Cancel</string>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </item>
+   </layout>
+  </widget>
+  <widget class="QStatusBar" name="statusbar"/>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>

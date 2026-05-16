@@ -1,0 +1,203 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>ErrorDialog</class>
+ <widget class="QDialog" name="ErrorDialog">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>420</width>
+    <height>222</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>错误</string>
+  </property>
+  <property name="styleSheet">
+   <string notr="true">
+QDialog {
+    background-color: #2b2a42;
+    border: 1px solid #3f3d5a;
+    border-radius: 14px;
+    font-family: &quot;Microsoft YaHei&quot;;
+}
+
+/* 红色顶部条 */
+#header {
+    background-color: #d32f2f;
+}
+
+/* 错误标题 */
+#titleLabel {
+    color: #f3f6ff;
+    font-size: 18px;
+    font-weight: 700;
+}
+
+/* 内容 */
+#messageLabel {
+    color: #d2dcff;
+    line-height: 1.35em;
+}
+
+/* 按钮 */
+QPushButton {
+    background-color: #2563eb;
+    color: white;
+    border: 1px solid #4b6fd1;
+    border-radius: 8px;
+    padding: 8px 22px;
+    font-weight: 600;
+}
+
+QPushButton:hover {
+    background-color: #3b82f6;
+    border: 1px solid #8cc1ff;
+}
+
+QPushButton:pressed {
+    background-color: #1d4ed8;
+}
+   </string>
+  </property>
+  <layout class="QVBoxLayout" name="verticalLayout">
+   <property name="spacing">
+    <number>14</number>
+   </property>
+   <property name="leftMargin">
+    <number>18</number>
+   </property>
+   <property name="topMargin">
+    <number>18</number>
+   </property>
+   <property name="rightMargin">
+    <number>18</number>
+   </property>
+   <property name="bottomMargin">
+    <number>18</number>
+   </property>
+   <item>
+    <layout class="QHBoxLayout" name="horizontalLayout" stretch="1,1">
+     <item>
+      <spacer name="horizontalSpacer_2">
+       <property name="orientation">
+        <enum>Qt::Orientation::Horizontal</enum>
+       </property>
+       <property name="sizeHint" stdset="0">
+        <size>
+         <width>40</width>
+         <height>20</height>
+        </size>
+       </property>
+      </spacer>
+     </item>
+     <item>
+      <widget class="QLabel" name="titleLabel">
+       <property name="text">
+        <string>程序发生错误</string>
+       </property>
+       <property name="alignment">
+        <set>Qt::AlignmentFlag::AlignCenter</set>
+       </property>
+      </widget>
+     </item>
+    </layout>
+   </item>
+   <item>
+    <layout class="QHBoxLayout" name="contentLayout" stretch="1,2">
+     <item>
+      <widget class="QLabel" name="iconLabel">
+       <property name="font">
+        <font>
+         <pointsize>28</pointsize>
+         <bold>true</bold>
+        </font>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">#iconLabel{
+color: #f3f6ff;
+font-weight: 700;
+background: #4f46e5;
+border: 1px solid #6366f1;
+border-radius: 22px;
+min-width: 44px;
+min-height: 44px;
+}</string>
+       </property>
+       <property name="text">
+        <string>!</string>
+       </property>
+       <property name="alignment">
+        <set>Qt::AlignmentFlag::AlignCenter</set>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QLabel" name="messageLabel">
+       <property name="font">
+        <font>
+         <family>Microsoft YaHei</family>
+         <pointsize>13</pointsize>
+        </font>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">#messageLabel{
+ color: #cfd8ff;
+}</string>
+       </property>
+       <property name="text">
+        <string>程序遇到异常，进程已被强制终止，请检查相关日志，查看错误原因</string>
+       </property>
+       <property name="wordWrap">
+        <bool>true</bool>
+       </property>
+      </widget>
+     </item>
+    </layout>
+   </item>
+   <item>
+    <layout class="QHBoxLayout" name="buttonLayout">
+     <item>
+      <spacer name="horizontalSpacer">
+       <property name="orientation">
+        <enum>Qt::Orientation::Horizontal</enum>
+       </property>
+       <property name="sizeHint" stdset="0">
+        <size>
+         <width>40</width>
+         <height>20</height>
+        </size>
+       </property>
+      </spacer>
+     </item>
+     <item>
+      <widget class="QPushButton" name="okButton">
+       <property name="text">
+        <string>确定</string>
+       </property>
+      </widget>
+     </item>
+    </layout>
+   </item>
+  </layout>
+ </widget>
+ <resources/>
+ <connections>
+  <connection>
+   <sender>okButton</sender>
+   <signal>clicked()</signal>
+   <receiver>ErrorDialog</receiver>
+   <slot>accept()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>20</x>
+     <y>20</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>20</x>
+     <y>20</y>
+    </hint>
+   </hints>
+  </connection>
+ </connections>
+</ui>

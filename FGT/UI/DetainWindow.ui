@@ -1,0 +1,183 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>MainWindow</class>
+ <widget class="QMainWindow" name="MainWindow">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>800</width>
+    <height>596</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>MainWindow</string>
+  </property>
+  <widget class="QWidget" name="centralwidget">
+   <layout class="QVBoxLayout" name="verticalLayout" stretch="4,1,1">
+    <item>
+     <widget class="QLabel" name="dafeizhu">
+      <property name="minimumSize">
+       <size>
+        <width>1</width>
+        <height>1</height>
+       </size>
+      </property>
+      <property name="text">
+       <string>图片</string>
+      </property>
+     </widget>
+    </item>
+    <item>
+     <widget class="QPlainTextEdit" name="plainTextEdit">
+      <property name="font">
+       <font>
+        <family>KaiTi</family>
+        <pointsize>20</pointsize>
+       </font>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">QPlainTextEdit{
+ background-color: transparent;
+color:purple;
+border:none;}</string>
+      </property>
+      <property name="readOnly">
+       <bool>true</bool>
+      </property>
+      <property name="plainText">
+       <string>          真的要离开我吗？
+</string>
+      </property>
+     </widget>
+    </item>
+    <item>
+     <layout class="QHBoxLayout" name="horizontalLayout" stretch="1,4,1">
+      <item>
+       <widget class="QPushButton" name="Cancel">
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
+        <property name="minimumSize">
+         <size>
+          <width>0</width>
+          <height>100</height>
+         </size>
+        </property>
+        <property name="font">
+         <font>
+          <family>KaiTi</family>
+          <pointsize>20</pointsize>
+         </font>
+        </property>
+        <property name="styleSheet">
+         <string notr="true">QPushButton {
+    background-color: #fff3b0;  /* 淡黄色背景（填满） */
+    border: 2px solid #ffe66d;  /* 深一点的淡黄色边框 */
+    border-radius: 15px;        /* 胶囊圆角 */
+    color:black;;             /* 文字深灰色，看得更清楚 */
+    padding: 6px 14px;
+    outline: none;
+}
+
+QPushButton:hover {
+    background-color: #ffe66d;  /* 鼠标悬浮背景更亮 */
+    border-color: #ffd500;      /* 边框更亮 */
+    outline: 3px solid rgba(255, 230, 109, 180);
+    outline-radius: 18px;
+}
+
+QPushButton:pressed {
+    background-color: #ffd500;
+    outline: 4px solid rgba(255, 213, 0, 220);
+    outline-radius: 18px;
+}</string>
+        </property>
+        <property name="text">
+         <string>那我再考虑考虑</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <spacer name="horizontalSpacer">
+        <property name="orientation">
+         <enum>Qt::Orientation::Horizontal</enum>
+        </property>
+        <property name="sizeHint" stdset="0">
+         <size>
+          <width>40</width>
+          <height>20</height>
+         </size>
+        </property>
+       </spacer>
+      </item>
+      <item>
+       <widget class="QPushButton" name="Delete">
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
+        <property name="minimumSize">
+         <size>
+          <width>0</width>
+          <height>100</height>
+         </size>
+        </property>
+        <property name="font">
+         <font>
+          <family>KaiTi</family>
+          <pointsize>20</pointsize>
+         </font>
+        </property>
+        <property name="styleSheet">
+         <string notr="true">QPushButton {
+    background-color: #fff3b0;  /* 淡黄色背景（填满） */
+    border: 2px solid #ffe66d;  /* 深一点的淡黄色边框 */
+    border-radius: 15px;        /* 胶囊圆角 */
+    color:black;;             /* 文字深灰色，看得更清楚 */
+    padding: 6px 14px;
+    outline: none;
+}
+
+QPushButton:hover {
+    background-color: #ffe66d;  /* 鼠标悬浮背景更亮 */
+    border-color: #ffd500;      /* 边框更亮 */
+    outline: 3px solid rgba(255, 230, 109, 180);
+    outline-radius: 18px;
+}
+
+QPushButton:pressed {
+    background-color: #ffd500;
+    outline: 4px solid rgba(255, 213, 0, 220);
+    outline-radius: 18px;
+}</string>
+        </property>
+        <property name="text">
+         <string>坚决的退出</string>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </item>
+   </layout>
+  </widget>
+  <widget class="QMenuBar" name="menubar">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>0</y>
+     <width>800</width>
+     <height>33</height>
+    </rect>
+   </property>
+  </widget>
+  <widget class="QStatusBar" name="statusbar"/>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>
