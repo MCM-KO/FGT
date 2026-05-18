@@ -1,2 +1,2 @@
-DRAG_FILE="G:/L-pythonproject/MAX/FGT/FGT/paths.py"
+DRAG_FILE="C:/FGT"
 SHOW_MAIN=1
