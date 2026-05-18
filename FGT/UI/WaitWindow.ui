@@ -96,9 +96,9 @@ QPushButton:pressed {
       </widget>
      </item>
      <item>
-      <widget class="QLabel" name="label">
+      <widget class="QLabel" name="feibi_run">
        <property name="text">
-        <string>放小人位置</string>
+        <string>图片</string>
        </property>
       </widget>
      </item>

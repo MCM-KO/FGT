@@ -531,7 +531,7 @@ QPlainTextEdit:focus{
     <item>
      <widget class="QStackedWidget" name="SHOW">
       <property name="currentIndex">
-       <number>3</number>
+       <number>9</number>
       </property>
       <widget class="QWidget" name="page_2">
        <layout class="QVBoxLayout" name="verticalLayout_2">
@@ -2042,8 +2042,8 @@ font-size:25px;}</string>
            <property name="geometry">
             <rect>
              <x>0</x>
-             <y>-835</y>
-             <width>510</width>
+             <y>0</y>
+             <width>500</width>
              <height>1400</height>
             </rect>
            </property>
@@ -3085,15 +3085,15 @@ font-family:'KaiTi';}</string>
            <property name="geometry">
             <rect>
              <x>0</x>
-             <y>-735</y>
-             <width>510</width>
-             <height>1300</height>
+             <y>0</y>
+             <width>500</width>
+             <height>1350</height>
             </rect>
            </property>
            <property name="minimumSize">
             <size>
              <width>500</width>
-             <height>1300</height>
+             <height>1350</height>
             </size>
            </property>
            <layout class="QVBoxLayout" name="verticalLayout_14">
@@ -4015,7 +4015,7 @@ font-family:'KaiTi';}</string>
                   <property name="minimumSize">
                    <size>
                     <width>80</width>
-                    <height>0</height>
+                    <height>46</height>
                    </size>
                   </property>
                   <property name="maximumSize">
@@ -4123,7 +4123,7 @@ font-family:'KaiTi';}</string>
               <property name="sizeHint" stdset="0">
                <size>
                 <width>20</width>
-                <height>60</height>
+                <height>50</height>
                </size>
               </property>
              </spacer>
@@ -4264,7 +4264,7 @@ font-family:'KaiTi';}</string>
                   <property name="minimumSize">
                    <size>
                     <width>80</width>
-                    <height>0</height>
+                    <height>46</height>
                    </size>
                   </property>
                   <property name="maximumSize">
@@ -4459,7 +4459,7 @@ font-family:'KaiTi';}</string>
             <rect>
              <x>0</x>
              <y>0</y>
-             <width>510</width>
+             <width>490</width>
              <height>1000</height>
             </rect>
            </property>
@@ -4861,18 +4861,7 @@ font-family: &quot;KaiTi&quot;;   /* 楷体 */
              </widget>
             </item>
             <item>
-             <layout class="QHBoxLayout" name="horizontalLayout_68">
-              <item>
-               <widget class="QLabel" name="label_55">
-                <property name="text">
-                 <string>设置声道数</string>
-                </property>
-               </widget>
-              </item>
-              <item>
-               <widget class="QSpinBox" name="voice_p"/>
-              </item>
-             </layout>
+             <layout class="QHBoxLayout" name="horizontalLayout_68"/>
             </item>
             <item>
              <layout class="QHBoxLayout" name="horizontalLayout_70">
@@ -5027,6 +5016,13 @@ font-family: &quot;KaiTi&quot;;   /* 楷体 */
              </layout>
             </item>
             <item>
+             <widget class="QPlainTextEdit" name="file_name_two">
+              <property name="placeholderText">
+               <string>输入矢文件名称</string>
+              </property>
+             </widget>
+            </item>
+            <item>
              <widget class="QPushButton" name="tackle_2">
               <property name="text">
                <string>合并</string>
@@ -5094,11 +5090,11 @@ font-family: &quot;KaiTi&quot;;   /* 楷体 */
             <rect>
              <x>0</x>
              <y>0</y>
-             <width>508</width>
-             <height>533</height>
+             <width>192</width>
+             <height>204</height>
             </rect>
            </property>
-           <layout class="QVBoxLayout" name="verticalLayout_23" stretch="2,1,1">
+           <layout class="QVBoxLayout" name="verticalLayout_23" stretch="1,1,1,5">
             <item>
              <layout class="QHBoxLayout" name="horizontalLayout_53">
               <property name="spacing">
@@ -5151,6 +5147,26 @@ font-family: &quot;KaiTi&quot;;   /* 楷体 */
             <item>
              <layout class="QHBoxLayout" name="horizontalLayout_76">
               <item>
+               <widget class="QPushButton" name="clearerror">
+                <property name="text">
+                 <string>清除异常</string>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <spacer name="horizontalSpacer_18">
+                <property name="orientation">
+                 <enum>Qt::Orientation::Horizontal</enum>
+                </property>
+                <property name="sizeHint" stdset="0">
+                 <size>
+                  <width>40</width>
+                  <height>20</height>
+                 </size>
+                </property>
+               </spacer>
+              </item>
+              <item>
                <widget class="QPushButton" name="player">
                 <property name="maximumSize">
                  <size>
@@ -5193,6 +5209,17 @@ font-family: &quot;KaiTi&quot;;   /* 楷体 */
                   <string>音频频谱</string>
                  </property>
                 </item>
+               </widget>
+              </item>
+             </layout>
+            </item>
+            <item>
+             <layout class="QHBoxLayout" name="horizontalLayout_86">
+              <item>
+               <widget class="QLabel" name="feibi_play">
+                <property name="text">
+                 <string>TextLabel</string>
+                </property>
                </widget>
               </item>
              </layout>
@@ -5282,27 +5309,45 @@ font-family: &quot;KaiTi&quot;;   /* 楷体 */
            </layout>
           </widget>
           <widget class="QWidget" name="page_11">
-           <layout class="QVBoxLayout" name="verticalLayout_10">
+           <layout class="QVBoxLayout" name="verticalLayout_10" stretch="1,1">
             <item>
              <layout class="QVBoxLayout" name="verticalLayout_8">
               <item>
-               <widget class="QLabel" name="label_25">
-                <property name="text">
-                 <string>用户交互日志</string>
-                </property>
-               </widget>
-              </item>
-              <item>
-               <widget class="QPushButton" name="loggeremit0">
-                <property name="text">
-                 <string>将所有历史记录上传至日志文本框</string>
-                </property>
-               </widget>
+               <layout class="QHBoxLayout" name="horizontalLayout_87">
+                <item>
+                 <widget class="QLabel" name="label_25">
+                  <property name="font">
+                   <font>
+                    <family>Microsoft YaHei</family>
+                    <pointsize>-1</pointsize>
+                    <bold>true</bold>
+                   </font>
+                  </property>
+                  <property name="text">
+                   <string>用户交互日志</string>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QPushButton" name="loggeremit0">
+                  <property name="text">
+                   <string>查看所有历史记录</string>
+                  </property>
+                 </widget>
+                </item>
+               </layout>
               </item>
               <item>
                <layout class="QHBoxLayout" name="horizontalLayout_41">
                 <item>
                  <widget class="QCheckBox" name="isdeletesl">
+                  <property name="font">
+                   <font>
+                    <family>Microsoft YaHei</family>
+                    <pointsize>-1</pointsize>
+                    <bold>true</bold>
+                   </font>
+                  </property>
                   <property name="text">
                    <string>确认删除历史所有记录</string>
                   </property>
@@ -5322,23 +5367,41 @@ font-family: &quot;KaiTi&quot;;   /* 楷体 */
             <item>
              <layout class="QVBoxLayout" name="verticalLayout_9">
               <item>
-               <widget class="QLabel" name="label_26">
-                <property name="text">
-                 <string>命令执行日志</string>
-                </property>
-               </widget>
-              </item>
-              <item>
-               <widget class="QPushButton" name="loggeremit1">
-                <property name="text">
-                 <string>将所有历史记录上传至日志文本框</string>
-                </property>
-               </widget>
+               <layout class="QHBoxLayout" name="horizontalLayout_88">
+                <item>
+                 <widget class="QLabel" name="label_26">
+                  <property name="font">
+                   <font>
+                    <family>Microsoft YaHei</family>
+                    <pointsize>-1</pointsize>
+                    <bold>true</bold>
+                   </font>
+                  </property>
+                  <property name="text">
+                   <string>命令执行日志</string>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QPushButton" name="loggeremit1">
+                  <property name="text">
+                   <string>查看所有历史记录</string>
+                  </property>
+                 </widget>
+                </item>
+               </layout>
               </item>
               <item>
                <layout class="QHBoxLayout" name="horizontalLayout_42">
                 <item>
                  <widget class="QCheckBox" name="isdeletefl">
+                  <property name="font">
+                   <font>
+                    <family>Microsoft YaHei</family>
+                    <pointsize>-1</pointsize>
+                    <bold>true</bold>
+                   </font>
+                  </property>
                   <property name="text">
                    <string>确认删除历史所有记录</string>
                   </property>
@@ -5840,64 +5903,193 @@ font-size:20px;}</string>
              </item>
             </layout>
            </widget>
-           <widget class="QWidget" name="horizontalLayoutWidget_2">
-            <property name="geometry">
-             <rect>
-              <x>10</x>
-              <y>180</y>
-              <width>111</width>
-              <height>41</height>
-             </rect>
-            </property>
-            <layout class="QHBoxLayout" name="horizontalLayout_84">
-             <item>
-              <widget class="QLabel" name="label_58">
-               <property name="font">
-                <font>
-                 <family>Microsoft YaHei</family>
-                 <pointsize>-1</pointsize>
-                 <bold>true</bold>
-                </font>
-               </property>
-               <property name="styleSheet">
-                <string notr="true">QLabel{
-font-size:20px;}</string>
-               </property>
-               <property name="text">
-                <string>桌宠设置</string>
-               </property>
-              </widget>
-             </item>
-            </layout>
-           </widget>
-           <widget class="QWidget" name="layoutWidget">
-            <property name="geometry">
-             <rect>
-              <x>20</x>
-              <y>240</y>
-              <width>254</width>
-              <height>48</height>
-             </rect>
-            </property>
-            <layout class="QHBoxLayout" name="horizontalLayout_85">
-             <item>
-              <widget class="QLabel" name="label_60">
-               <property name="text">
-                <string>随机动作时间间隔/秒</string>
-               </property>
-              </widget>
-             </item>
-             <item>
-              <widget class="QDoubleSpinBox" name="doubleSpinBox"/>
-             </item>
-            </layout>
-           </widget>
           </widget>
          </widget>
         </item>
        </layout>
       </widget>
-      <widget class="QWidget" name="page_15"/>
+      <widget class="QWidget" name="page_15">
+       <layout class="QVBoxLayout" name="verticalLayout_28">
+        <item>
+         <widget class="QPlainTextEdit" name="plainTextEdit_2">
+          <property name="styleSheet">
+           <string notr="true">QPlainTextEdit{
+font-size:15px;
+}</string>
+          </property>
+          <property name="readOnly">
+           <bool>true</bool>
+          </property>
+          <property name="plainText">
+           <string>FGT 媒体处理工具 - 帮助文档
+一、软件概述
+FGT 是一款轻量级、多功能的媒体处理工具，集成了视频转换、动图制作、裁切合并、水印添加、立体音效处理、高级播放等实用功能，旨在为用户提供一站式的音视频处理解决方案。
+
+
+二、运行环境说明
+适配 Windows 全系主流桌面系统，为桌面端专属应用。
+
+运行要求
+1. 无需安装额外运行库、环境依赖，原生适配桌面运行；
+2. 无需管理员权限，普通用户权限即可正常启动、使用、配置；
+3. 无系统攻击性进程，运行安全、不篡改系统文件、不占用系统核心资源。
+
+版本说明
+当前版本：V0.0.1 正式版
+版本状态：初代完整功能版本，完成全部基础播放、高级设置、桌宠拓展核心功能，功能框架固定。
+
+
+三、功能模块详解
+1. 文件转换
+支持主流音视频格式互转，可灵活调整基础参数
+
+核心操作：
+(1)点击「浏览」选择源文件地址
+(2)输入输出文件名称，选择目标格式
+(3)按需配置参数：- 播放速度：调整视频倍速
+- 禁用视频/音频：可单独提取音频或静音视频
+- 手动图像清晰度/音质调节：自定义输出质量
+(4)点击「转换」执行任务
+
+
+2. 动图制作
+专为 GIF 动图转换设计，支持视频转 GIF：
+
+温馨提示：处理大体积视频前，建议先压缩/降码（降低帧率、清晰度），避免转换失败
+
+操作步骤：
+(1)「浏览」选择源视频文件
+(2)输入输出文件名称
+(3)点击「制作」生成 GIF 动图
+
+
+3. 裁切合并
+（1）文件裁剪
+支持视频尺寸裁剪、画面翻转、画面缩放：
+核心功能：
+- 手动伸缩：自定义视频宽高
+- 手动裁剪：指定裁剪区域的宽高
+- 手动布局：调整裁剪区域的 X/Y 坐标
+- 启用翻转：支持逆90°、上下翻转等效果
+
+操作：
+a.「浏览」选择源文件
+b.输入输出文件名称
+c.配置裁剪/翻转参数
+d.点击「剪切」执行
+
+（2）文件合并
+支持多视频拼接，可自定义输出格式：
+
+操作步骤：
+a. 「浏览」并「添加」多个源文件到合并栏
+b. 可点击「清除」清空列表
+c. 输入输出文件名称，选择目标格式（默认 MP4）
+d. 点击「合并」完成拼接
+
+
+4. 水印添加
+支持静态水印与动态水印两种模式，可自定义透明度、位置和轨迹：
+通用设置：
+- 透明度调节：设置水印透明程度（0.00 为完全不透明）
+- 时间截取：可指定水印生效的起始时间与持续时长
+
+静态水印：
+a. 「浏览」选择水印文件地址
+b. 勾选「位置选取」，设置水印宽高与 X/Y 坐标
+c. 配置透明度后点击「添加」
+
+动态水印：
+a. 勾选「动态水印」，设置初始位置与终止位置的坐标、宽高
+b. 选择轨迹模式：震动回旋 / 直线平切
+c. 点击「添加」生成动态水印效果
+
+
+
+5. 立体音效
+为音频添加立体环绕效果，支持单音频处理与多音频合并：
+（1）单音频处理
+ 操作：
+a.「浏览」选择源音频文件
+b. 输入输出文件名称
+c. 选择耳机模式：静态立体 / 动态环绕
+d. 选择音效模式：轻音反射 / 中度回响 / 迷幻狂欢
+e. 点击「处理」生成效果
+
+（2）多音频处理
+- 支持双声道音频合并（左声道/右声道分别导入），可启用双混环绕效果：
+
+a. 「浏览」分别导入左声道、右声道文件
+b. 输入输出文件名称
+c. 选择音效模式，按需启用「双混环绕」
+d. 点击「合并」生成立体音频
+
+
+6. 高级播放
+内置基于ffplay的媒体播放器，支持多种播放模式。
+重要使用说明：本模块仅支持音频、视频格式播放，不支持图片、GIF 动图等静态图像格式。若用户误选择图片、动图文件触发加载异常、播放卡顿、无响应等问题，请立即点击「清除异常」按钮重置播放状态，彻底终止后台残留进程，避免无效进程常驻隐藏后台，持续占用设备内存与 CPU 资源，导致软件卡顿、运行异常。
+
+操作：
+(1) 「浏览」选择媒体文件
+(2) 选择播放模式（如音频波形）
+(3) 点击「播放」即可预览，支持「清除异常」重置播放状态
+
+7. 日志报告
+记录软件运行过程中的用户交互与命令执行日志：
+
+功能：
+- 查看所有历史记录：追溯操作与命令执行过程
+- 删除历史记录：勾选「确认删除」后点击「删除」清空日志
+
+
+8. 音频百科
+提供主流音视频格式科普查询（如 MP3、MP4）：
+操作：
+(1) 选择要查询的音频/视频格式
+(2) 点击「查询」获取格式相关信息
+
+9. 高级设置
+自定义软件运行路径，优化使用体验：
+配置项：
+- 音频存储空间：设置音频文件的默认保存路径
+- 默认浏览路径：设置文件选择窗口的默认打开目录
+ 操作：
+(1)点击「浏览」选择目标路径
+(2) 点击「确认」保存设置
+
+
+10.通用功能补充说明（全模块适用）
+软件内所有支持手动输入、手动编辑的选择输入框，功能均不局限于下拉菜单预设的格式、参数选项。
+软件依托 FFmpeg 内核驱动格式转换功能，下拉框仅展示日常常用的主流格式，理论支持 FFmpeg 兼容的几乎全部计算机音频、图像、视频格式。
+示例：文件转换功能不仅支持音视频互转，还支持 PNG、JPG 等图片格式转 ICO 图标格式、各类图片格式互转等转换需求，用户可手动输入目标格式后缀，自定义完成格式转换。
+
+
+四、常见问题与解决方案
+1. 任务执行失败/卡死
+- 检查源文件是否损坏、格式是否支持
+- 关闭占用资源过高的其他程序，重新启动软件
+- 查看「日志报告」获取错误详情
+2. 水印效果异常
+- 确保水印文件格式为图片（支持常见格式）
+- 调整水印透明度与位置，避免超出视频画面范围
+3.立体音效无效果
+- 确认源音频为双声道格式（单声道文件不支持环绕效果）
+- 检查耳机模式与音效模式是否正确选择
+4. 文件合并/裁切无输出
+- 确认所有源文件路径无中文/特殊字符
+- 检查输出文件名称是否重复，避免覆盖原文件
+
+
+五、使用须知
+1. 处理大文件时请耐心等待，后台进程需占用一定 CPU/内存资源
+2. 若遇到程序崩溃问题，可查看日志报告反馈问题，后续版本将持续修复
+
+</string>
+          </property>
+         </widget>
+        </item>
+       </layout>
+      </widget>
       <widget class="QWidget" name="page_16">
        <layout class="QVBoxLayout" name="verticalLayout_25" stretch="1,1,1,4">
         <item>

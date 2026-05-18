@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 """顶层/子控件统一透明背景（无系统底色、无填充）。"""
 from PySide6.QtCore import Qt
 from PySide6.QtGui import QColor, QPalette
@@ -6,6 +5,7 @@ from PySide6.QtWidgets import QWidget
 
 
 def apply_fully_transparent(widget: QWidget) -> None:
+    """传入控件作为设置透明格式"""
     widget.setAutoFillBackground(False)
     widget.setAttribute(Qt.WidgetAttribute.WA_NoSystemBackground, True)
     widget.setAttribute(Qt.WidgetAttribute.WA_TranslucentBackground, True)

@@ -65,9 +65,9 @@ class Pet(QWidget):
         apply_fully_transparent(self._ov)
 
         """配置静态图片"""
-        self._pc_main = self._load_main(config.FEIBI_MAIN)#可以用来过渡，先放张照片再启动视频，防止还没show就播放视频导致崩溃
-        self._pc_bite = self._load_opt_file(config.FEIBI_BITE)
-        self._pc_hang = self._load_opt_file(config.FEIBI_HANG)
+        self._pc_main = self._load_main(config.CHARACTER_MAIN)#可以用来过渡，先放张照片再启动视频，防止还没show就播放视频导致崩溃
+        self._pc_bite = self._load_opt_file(config.CHARACTER_BITE)
+        self._pc_hang = self._load_opt_file(config.CHARACTER_HANG)
 
         self._cw = max(1, self._pc_main.width())
         self._ch = max(1, self._pc_main.height())
@@ -147,16 +147,16 @@ class Pet(QWidget):
 
     """播放区，无需多言"""
     def play_sing(self) -> None:
-        self._play_rand(config.FEIBI_SING_CLIP)
+        self._play_rand(config.CHARACTER_SING_CLIP)
 
     def play_sleep(self) -> None:
-        self._play_rand(config.FEIBI_SLEEP_CLIP)
+        self._play_rand(config.CHARACTER_SLEEP_CLIP)
 
     def play_sleep_2(self) -> None:
-        self._play_rand(config.FEIBI_SLEEP_2_CLIP)
+        self._play_rand(config.CHARACTER_SLEEP_2_CLIP)
 
     def play_wake(self) -> None:
-        self._play_rand(config.FEIBI_WAKE_CLIP)
+        self._play_rand(config.CHARACTER_WAKE_CLIP)
 
 
     def play_bite(self) -> None:
@@ -255,7 +255,7 @@ class Pet(QWidget):
     def _idle(self) -> None:
         """待机循环"""
         self._stop_pose_motion()
-        p = config.FEIBI_COMMON
+        p = config.CHARACTER_COMMON
         if self._clips and p.is_file():
             self._spr.hide()
             self._clips.play_loop(p)
@@ -400,14 +400,20 @@ class Pet(QWidget):
         super().dragLeaveEvent(ev)
 
     def dropEvent(self, ev) -> None:
-        """文件确定拖入时，该修改的逻辑在这里"""
+        """文件确定拖入时，"""
         if self._busy:
             ev.ignore()
             return
         paths = [u.toLocalFile() for u in ev.mimeData().urls() if u.toLocalFile()]
+
         if paths:
             self._drop_prev = False
-            self._dropped_paths=list(paths)
+            first = paths[0]
+            self._dropped_paths = [first]
+            config.INTERACT_TXT.write_text(
+                f'DRAG_FILE="{first}"\nSHOW_MAIN=1\n',
+                encoding="utf-8",
+            )
             self.play_bite()
             ev.acceptProposedAction()
         else:

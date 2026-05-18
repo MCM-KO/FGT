@@ -8,7 +8,8 @@ import re
 from FGT.InterSystem import Execute
 from FGT.ProcessCreator import Creator
 from FGT.SonGraphic import DetainWindow
-from FGT.paths import CONFIG_SETUP, UI_SETUP
+from FGT.config_state import ensure_setup_file, load_configuration, save_configuration
+from FGT.paths import UI_SETUP
 
 
 class MainWindow(QMainWindow):
@@ -21,17 +22,19 @@ class MainWindow(QMainWindow):
     setup_progressBar=Signal(int)
     change_label=Signal(str)
 
-    #qt类析构函数(任何窗口在销毁之前都需要对由其创造的相关进程进行终止操作)
-    def closeEvent(self,event):
+    def closeEvent(self,event) -> None:
+        """qt类析构函数(任何窗口在销毁之前都需要对由其创造的相关进程进行终止操作)"""
         #清除进程池
         for t in self.PP:
             t.terminate()
         event.accept()
 
 
-    def __init__(self):
+    def __init__(self) -> None:
+        """安装引导界面初始化"""
         QMainWindow.__init__(self)
         Creator.__init__(self)
+        ensure_setup_file()
         self.ui=QUiLoader().load(UI_SETUP)
         self.default_path=str(Path.home() / "Desktop")
         from PySide6.QtCore import Qt
@@ -86,14 +89,14 @@ class MainWindow(QMainWindow):
 
 
 
-    #开启挽留子窗口
-    def Make_son(self):
+    def Make_son(self) -> None:
+        """开启挽留子窗口"""
         self.DetainWindow.ui.resize(500,500)
         self.DetainWindow.ui.show()
 
 
-    #抛出错误
-    def Make_Error(self,ERROR):
+    def Make_Error(self,ERROR) -> None:
+        """抛出错误"""
         self.ui.label_5.setText("配置发生严重错误，被迫中断")
         self.ui.place_error.show()
         self.ui.place_error.setEnabled(True)
@@ -107,9 +110,10 @@ class MainWindow(QMainWindow):
 
 
 
-    #修改对应页的按钮布局
-    def change_page(self,data):
-        index=self.ui.setupStack.currentIndex()+data
+    def change_page(self,data) -> None:
+        """修改对应页的按钮布局"""
+        last = max(0, self.ui.setupStack.count() - 1)
+        index = max(0, min(self.ui.setupStack.currentIndex() + data, last))
         if index==0:
             self.ui.startButton.hide()
             self.ui.startButton.setEnabled(False)
@@ -133,12 +137,12 @@ class MainWindow(QMainWindow):
             self.ui.nextButton.setEnabled(False)
         self.change_page_S.emit(index)
         self.setup_progressBar.emit((index+1)*33)
-        self.change_label.emit(self.STEP[index])
+        self.change_label.emit(self.STEP[min(index, len(self.STEP) - 1)])
 
 
 
-    #开始配置进程
-    def Get_configure(self):
+    def Get_configure(self) -> None:
+        """开始配置进程"""
         #读取选项配置
         try:
             isink=0
@@ -158,44 +162,60 @@ class MainWindow(QMainWindow):
             self.ui.label_5.setText("配置中")
             self.ui.label_5.show()
             #验证资源目标
-            if self.ui.input_file_1=="" or self.ui.input_file_2.toPlainText()=="" or self.ui.input_file_3.toPlainText()=="":
+            if (
+                not self.ui.input_file_1.toPlainText().strip()
+                or not self.ui.input_file_2.toPlainText().strip()
+                or not self.ui.input_file_3.toPlainText().strip()
+            ):
                 raise Exception("不要使用空路径，啾！")
-            #拉取资源
+            pkg = self.ui.ffversion.currentText()
+            suffix = pkg.rsplit(".", 1)[-1].lower()
+
+            #拉取资源（GyanD 官方包，经国内 GitHub 加速镜像，文件名与下拉框一致）
             if self.ui.addff_y.isChecked():
-                url="https://www.gyan.dev/ffmpeg/builds/packages"+r"//"+self.ui.ffversion.currentText()
-                suffix=re.search("(.com)?(.*)\\.(.*)",url).group(3)
+                ver = re.search(r"^ffmpeg-([\d.]+)-", pkg).group(1)
+                url = (
+                    f"https://ghfast.top/https://github.com/GyanD/codexffmpeg"
+                    f"/releases/download/{ver}/{pkg}"
+                )
                 self.ui.progressBar.show()
-                command=rf"curl -L -o {self.ui.input_file_1.toPlainText()}/ffmpeg.{suffix} -# {url}"
-                Execute.Curl_target(command,self,self.PP)
-                #拉取完对窗口作相关调整
-                self.set_progressBar.emit(100)#得改
+                dest_dir = self.ui.input_file_1.toPlainText()
+                command = rf'curl -L -o "{dest_dir}/ffmpeg.{suffix}" -# {url}'
+                Execute.Curl_target(command, self, self.PP)
+                self.set_progressBar.emit(100)
 
+                self.ui.label_5.setText("解压中")
+                archive = f"{dest_dir}/ffmpeg.{suffix}"
+                Execute.Tar_file(archive, dest_dir, self.PP)
 
-            #配置初始默认路径
-            with open(CONFIG_SETUP, "r", encoding="utf-8") as f:
-                configuration=(f.read()).splitlines()
-            configuration[2]=re.sub(re.search("\"(.*)\"",configuration[2]).group(1),self.ui.input_file_2.toPlainText(),configuration[2])
-            configuration[3]=re.sub(re.search("\"(.*)\"",configuration[3]).group(1),self.ui.input_file_3.toPlainText(),configuration[3])
-            with open(CONFIG_SETUP, "w", encoding="utf-8") as f:
-                f.write("\n".join(configuration))
+                v_path = re.search(r"(.*)\.", pkg).group(1)
+                Execute.Set_PATH(f"{dest_dir}/{v_path}/bin")
 
-            #解压
-            self.ui.label_5.setText("解压中")
-            FILE=self.ui.input_file_1.toPlainText()
-            file=f"{FILE}/ffmpeg.{suffix}"
-            Execute.Tar_file(file,FILE,self.PP)
-
-            #设置环境变量
-            v_path=re.search("(.*)\\.(.*)",self.ui.ffversion.currentText()).group(1)
-            Execute.Set_PATH(FILE+"/"+v_path+"/bin")
-
+            configuration = load_configuration()
+            configuration[2] = re.sub(
+                re.search(r"\"(.*)\"", configuration[2]).group(1),
+                self.ui.input_file_2.toPlainText().strip(),
+                configuration[2],
+            )
+            configuration[3] = re.sub(
+                re.search(r"\"(.*)\"", configuration[3]).group(1),
+                self.ui.input_file_3.toPlainText().strip(),
+                configuration[3],
+            )
+            save_configuration(configuration)
 
             #设置桌面快捷方式
-            #此处相关操作仍需要等项目包装结构彻底定下来之后再做打算
+            if self.ui.addff_y.isChecked():
+                Execute.Set_ink()
 
-
-            #结束收尾
-            self.ui.label_5.setText("binggo！完成,请重启程序，啾！")
+            configuration = load_configuration()
+            configuration[1] = re.sub(
+                re.search(r"\"(.*)\"", configuration[1]).group(1),
+                "YES",
+                configuration[1],
+            )
+            save_configuration(configuration)
+            self.ui.label_5.setText("Bingo！完成，请点击开始进入主界面，啾！")
             self.ui.startButton.show()
             self.ui.startButton.setEnabled(True)
         except Exception as ERROR:
@@ -206,10 +226,4 @@ class MainWindow(QMainWindow):
             self.Make_Error(ERROR)
 
 
-#快捷方式保存形式
-# powershell "$s=(New-Object -COM WScript.Shell).CreateShortcut('%USERPROFILE%\Desktop\FF.lnk');$s.TargetPath='X:\FF.exe';$s.Save()"
-# "X:\FF\ffmpeg-8.0.1-essentials_build\bin\ffmpeg.exe"
-# powershell "$s=(New-Object -COM WScript.Shell).CreateShortcut('%USERPROFILE%\Desktop\FF.lnk');$s.TargetPath='X:\FF\ffmpeg-8.0.1-essentials_build\bin\ffmpeg.exe';$s.Save()"
 
-
-# powershell "$s=(New-Object -COM WScript.Shell).CreateShortcut(\"$env:USERPROFILE\Desktop\TOSKY.lnk\");$s.TargetPath='X:\TOSKY';$s.Save()"

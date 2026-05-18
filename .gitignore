@@ -1,1 +1,6 @@
+/.venv
+/build
+/Developer
+/feibi_startup.log
+/main_root.py
 /try.py

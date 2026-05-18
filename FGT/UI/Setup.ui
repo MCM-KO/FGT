@@ -265,12 +265,12 @@ QPushButton#cancelButton:hover {
                   <widget class="QComboBox" name="ffversion">
                    <item>
                     <property name="text">
-                     <string>ffmpeg-8.0.1-essentials_build.7z</string>
+                     <string>ffmpeg-8.0.1-essentials_build.zip</string>
                     </property>
                    </item>
                    <item>
                     <property name="text">
-                     <string>ffmpeg-8.0.1-essentials_build.zip</string>
+                     <string>ffmpeg-8.0.1-essentials_build.7z</string>
                     </property>
                    </item>
                    <item>

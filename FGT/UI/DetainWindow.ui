@@ -14,7 +14,7 @@
    <string>MainWindow</string>
   </property>
   <widget class="QWidget" name="centralwidget">
-   <layout class="QVBoxLayout" name="verticalLayout" stretch="4,1,1">
+   <layout class="QVBoxLayout" name="verticalLayout" stretch="0,1">
     <item>
      <widget class="QLabel" name="dafeizhu">
       <property name="minimumSize">
@@ -25,29 +25,6 @@
       </property>
       <property name="text">
        <string>图片</string>
-      </property>
-     </widget>
-    </item>
-    <item>
-     <widget class="QPlainTextEdit" name="plainTextEdit">
-      <property name="font">
-       <font>
-        <family>KaiTi</family>
-        <pointsize>20</pointsize>
-       </font>
-      </property>
-      <property name="styleSheet">
-       <string notr="true">QPlainTextEdit{
- background-color: transparent;
-color:purple;
-border:none;}</string>
-      </property>
-      <property name="readOnly">
-       <bool>true</bool>
-      </property>
-      <property name="plainText">
-       <string>          真的要离开我吗？
-</string>
       </property>
      </widget>
     </item>

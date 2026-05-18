@@ -5,31 +5,31 @@ import datetime
 from idlelib.pyparse import trans
 #泛型定义
 from threading import Thread
-from typing import Callable, TypeVar, ParamSpec
+from typing import Callable, TypeVar, ParamSpec, NoReturn
 P = ParamSpec("P")
 R = TypeVar("R")
 
 
 #用于存放ffmpeg交互线程启动口和非操作系统交互型启动口
 class Creator:
-    def __new__(cls):
+    def __new__(cls) -> NoReturn:
         raise Exception("no instances")
 
-    def __init_subclass__(cls):
+    def __init_subclass__(cls) -> None:
         raise Exception("no herit")
 
 
     @staticmethod
     def Start_process(func: Callable[P, R], *args: P.args, **kwargs: P.kwargs) -> Thread:
-        #泛型线程启动函数
+        """泛型线程启动函数"""
         t = Thread(target=func, args=args, kwargs=kwargs, daemon=True)
         t.start()
         return t
 
 
     @staticmethod
-    def Get_duration(input_file):
-        # 获取视频时长的进程函数
+    def Get_duration(input_file) -> str:
+        """获取视频时长的进程函数"""
         result=subprocess.run(
             [
                 "ffprobe",
@@ -39,21 +39,22 @@ class Creator:
                 input_file
             ],
             stdout=subprocess.PIPE,
-            text=True
+            text=True,
+            creationflags=getattr(subprocess, "CREATE_NO_WINDOW", 0),
         ).stdout.strip()
         return result
 
-    #P-I
     @staticmethod
-    def Carry_ff(FFLIST,WaitWindow,duration,PP):
-        # 执行ffmpeg命令行函数
+    def Carry_ff(FFLIST,WaitWindow,duration,PP) -> str:
+        """执行ffmpeg命令行函数"""
         time_pattern = re.compile(r"time=(\d+):(\d+):(\d+\.\d+)")
         result=subprocess.Popen(
             FFLIST,
             stderr=subprocess.PIPE,
             text=True,
             universal_newlines=True,
-            encoding="utf-8"
+            encoding="utf-8",
+            creationflags=getattr(subprocess, "CREATE_NO_WINDOW", 0),
         )
         PP.append(result)
         LOG=""
@@ -70,15 +71,14 @@ class Creator:
         return LOG
 
 
-    #P-I
     @staticmethod
-    def Carry_fp(FFLIST,FPTP):
-        # 执行ffplay的播放函数
-        print(FFLIST)
+    def Carry_fp(FFLIST,FPTP) -> None:
+        """执行ffplay的播放函数"""
         result=subprocess.Popen(
             FFLIST,
             stdout=subprocess.DEVNULL,
-            stderr=subprocess.DEVNULL
+            stderr=subprocess.DEVNULL,
+            creationflags=getattr(subprocess, "CREATE_NO_WINDOW", 0),
         )
         FPTP.append(result)
 

@@ -1,0 +1,2 @@
+DRAG_FILE="G:/L-pythonproject/MAX/FGT/FGT/UI/spin_up.svg"
+SHOW_MAIN=1

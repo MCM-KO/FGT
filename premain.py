@@ -1,24 +1,35 @@
-#初始化总入口,用于首次安装时,真正的主入口
+"""本程序最终入口"""
 import os
-import re
 import sys
+
 from PySide6.QtWidgets import QApplication
 
-from FGT.paths import CONFIG_SETUP, PKG_DIR
-import FGT.SetupGraphic as SetupGraphic
+from FGT.config_state import ensure_setup_file, needs_setup, read_isset
+from FGT.paths import PKG_DIR
+from FGT import SetupGraphic
+
 
 os.chdir(PKG_DIR)
 
-if __name__ == '__main__':
-    with open(CONFIG_SETUP, "r", encoding="utf-8") as f:
-        lines=f.readlines()
-        ISSET=re.search("\"(.*)\"",lines[1]).group(1)
-        if ISSET=="NO":
-            app=QApplication(sys.argv)
-            w= SetupGraphic.MainWindow()
-            w.resize(400,300)#设置初始化大小
-            w.show()
-            app.exec()
-        elif ISSET=="YES":
-            pass
+if __name__ == "__main__":
+    if len(sys.argv) > 1 and sys.argv[1] == "--feibi-pet":
+        from main_feibi import main as feibi_main
 
+        feibi_main()
+        sys.exit(0)
+
+    ensure_setup_file()
+    app = QApplication(sys.argv)
+
+    if needs_setup():
+        w = SetupGraphic.MainWindow()
+        w.resize(400, 300)
+        w.show()
+        app.exec()
+        w.deleteLater()
+        if read_isset() != "YES":
+            sys.exit(0)
+
+    from main import launch_main
+
+    raise SystemExit(launch_main(app))

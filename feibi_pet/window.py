@@ -1,5 +1,4 @@
-# -*- coding: utf-8 -*-
-"""无边框顶层窗：承载 Pet，转发拖动。"""
+"""无边框顶层窗：装PET对象"""
 import sys
 
 from PySide6.QtCore import QPoint, Qt

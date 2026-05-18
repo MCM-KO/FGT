@@ -1,104 +1,218 @@
-# 菲比桌宠（FEIBI）— 使用说明
+# FGT + 菲比桌宠（FEIBI）
 
-面向《鸣潮》角色「菲比」的 Windows 桌面小宠物示例。程序使用 **Python 3** + **PyQt6**：无边框置顶小窗口展示立绘，并支持：
+本项目由两个部分合并而成，共用同一仓库根目录：
 
-1. **常态与随机**：资源**仅**目录 `feibi_pet/picture/`。随机动作若存在同名 **MP4**（`feibi_sing.mp4`、`feibi_sleep.mp4`、`feibi_wake.mp4`），由 `feibi_pet/random_movement_mp4.py` **优先播放**；否则使用 **PNG/JPG** 等静态图 + 弹跳。
-2. **拖文件到角色上**：优先切换为 ``feibi_bitefile`` 立绘并播「吃文件」动效（无该图时用 ``feibi_eating`` 或主图）；**默认不删除、不移动**磁盘文件。
-3. **用鼠标拖动角色**：整个桌宠窗口跟随光标移动。
+| 包 | 作用 |
+|----|------|
+| **`FGT/`** | 基于 FFmpeg 的图形化工具（主窗口、安装向导、托盘、日志等） |
+| **`feibi_pet/`** | 《鸣潮》角色「菲比」Windows 桌面小宠物（独立子进程） |
 
-**唯一资源目录**：`feibi_pet/picture/`。主图、随机图、咀嚼图与上述 MP4 **全部**放在此目录；程序不会从别处加载。
+独立项目互动机制：\
+主程序启动桌宠后，两者通过项目根目录的 **`Interact.txt`** 通信：桌宠拖入文件 → 写入该文件 → 主程序监视并填入输入框。
+
+主技术栈：**Python 3** + **PySide6** + **OpenCV** + **ffmpeg**
 
 ---
 
-## 一、图片必须放在哪个文件夹？
-
-**统一目录（在 Python 包内）：**
+## 一、项目结构
 
 ```text
 <项目根>/
-  feibi_pet/
-    picture/
-      feibi_main.png      ← 常态过度图
-      feibi_eating.png    ← 可选：拖文件咀嚼（无 bitefile 时使用）
-      feibi_bitefile.png  ← 拖文件到角色位置时会显示咬文件
-      feibi_sing.mov      ← 唱歌动作
-      feibi_sleep.mov     ← 第一版睡觉动作
-      feibi_sleep_2.mov   ← 第二版睡觉动作
-      feibi_wake.mov      ← 苏醒动作
+  premain.py              # 二合一的总入口（先向导，再主界面）（实际上只需要单个宠物包的话，用不到这个）
+  main.py                 # 主界面逻辑（由 premain 调用 launch_main）
+  main_feibi.py           # 桌宠进程入口（可以单独使用）
+  Interact.txt            # FGT ↔ 桌宠 交互文件
+ （关于Interact.txt运行时读写，为了解决进程隔离的问题）
+ （蒟蒻的架构能力有限，所以发现进程隔离的时候只能出此下策）
+  requirements.txt        #pip的需求包
+  LICENSE.txt             #许可证
+
+  FGT/                    # 主程序包
+    Graphic.py            # 主窗口
+    SetupGraphic.py       # 首次安装 / 配置向导
+    InterSystem.py        # 与操作系统直接交互的包，包括下载、解压、设置环境变量、快捷方式等
+    paths.py              # 路径（主要是打包使用）
+    config_state.py       # setup_list.txt 行号约定与修复（为了配合打包用的）
+    interact_watch.py     # 监视 Interact.txt
+    Configuration/
+      setup_list.txt        # 配置模板（固定 4 行，见下文）
+    UI/                   # Qt Designer 界面
+    picture/              # 主程序用图
+    WIKI/                 # 内置说明文本
+    logger/               # 运行日志
+    buffer/               # 临时截取照片、concat 列表等
+
+  feibi_pet/              # 桌宠包
+    config.py             # 立绘路径、随机参数、Interact.txt 位置
+    window.py             # 无边框置顶窗
+    pet.py                # 立绘、拖放、动画（pet的核心类）
+    Media.py              # 播放器
+    RandomScheduler.py    # 随机调度器
+    qt_transparent.py     # 透明器
+    picture/              # 桌宠立绘（唯一资源目录，见下文）
 ```
 
 ---
 
-## 二、主图 `feibi_main` 在逻辑上的地位
+## 二、启动流程
 
-- 启动后默认显示主图；窗口客户区大小与主图像素尺寸一致。
-- 随机动作图若缺失，内部会**自动退回主图**，避免空白或崩溃。
-- 若主图文件也不存在，会显示程序内置的简易占位图（仅便于开发调试）；正式使用请务必放入 **`feibi_pet/picture/feibi_main.png`**。
+### 开发环境
 
----
-
-## 三、安装与运行
-
-在项目根目录（与 `main.py` 同级）执行：
+在项目根目录：
 
 ```text
 pip install -r requirements.txt
-python main.py
+python premain.py
 ```
 
-Windows PowerShell 示例（使用本仓库虚拟环境）：
+- 若 `setup_list.txt` 中 `ISSET` 不为 `"YES"`（或路径仍为占位符），先显示 **FGT 安装向导**。
+- 向导完成后点「开始」，同一进程进入 **FGT 主窗口**，并拉起 **桌宠子进程**，完成二者的互动。
+- 若仅调试桌宠，丢弃FGT图形化界面：`python main_feibi.py`
+
+### 打包后
 
 ```text
-.\.venv\Scripts\pip install -r requirements.txt
-.\.venv\Scripts\python.exe main.py
+pyinstaller FGT.spec
 ```
 
----
+生成 `dist/FGT.exe`（单文件）。再次运行读 **exe 同目录** 下生成的 `Configuration/setup_list.txt` 等可写文件；只读资源在解压临时目录内。
 
-## 四、可调参数（`feibi_pet/config.py`）
 
-该文件内有**更细的中文说明**（模块顶部长注释），此处列出常用项：
+## 三、配置文件 `setup_list.txt`
 
-| 常量 | 含义 |
+路径：开发时为 `FGT/Configuration/setup_list.txt`；打包后为 **exe 同目录** `Configuration/setup_list.txt`。
+
+**固定 4 行，按行号读写（勿删行、勿打乱顺序）：**
+
+| 行号 | 含义 |
 |------|------|
-| `RANDOM_ACTION_TICK_MS` | 每隔多少毫秒「尝试」一次是否触发随机动作 |
-| `RANDOM_ACTION_CHANCE` | 每次尝试实际触发的概率（0～1） |
-| `RANDOM_ACTION_COOLDOWN_MS` | 两次随机动作之间的最短间隔 |
-| `ACTION_*_DISPLAY_MS` | 三种随机姿态在屏幕上的总展示时间（含开头短弹跳） |
-| `EAT_ANIMATION_MS` | 吃文件动效总时长 |
-| `ALWAYS_ON_TOP` | 是否总在最前 |
-| `PET_DISPLAY_MAX_WIDTH` / `PET_DISPLAY_MAX_HEIGHT` | 桌宠在屏幕上的最大显示宽高（像素）；原图更大时等比缩小，像小宠物不占满屏 |
+| `[0]` | 注释 `#配置文件` |
+| `[1]` | `ISSET="NO"` / `"YES"` — 是否已完成首次配置 |
+| `[2]` | `DEFAULT_PATH="..."` — 默认浏览路径 |
+| `[3]` | `DEFAULT_PATH_S="..."` — 默认存储路径 |
 
-另：`resolve_random_mp4("feibi_sleep")` 仅在存在 `feibi_pet/picture/feibi_sleep.mp4` 时返回路径，用于随机动作的 MP4 分支。
-
-图片目录常量：`PICTURE_DIR` 仅指向 **`feibi_pet/picture`**（唯一立绘目录）。
+程序在读写前会检查文件是否满 4 行；不足则按模板补齐，避免越界。
 
 ---
 
-## 五、代码结构（便于二创）
+## 四、FGT 主程序（`FGT/` 包）
 
-| 路径 | 作用 |
-|------|------|
-| `main.py` | 启动 `QApplication`，创建窗口并设定初始位置 |
-| `feibi_pet/config.py` | **包内** `picture` 路径解析与时间参数 |
-| `feibi_pet/window.py` | 无边框置顶窗口、鼠标拖动、挂载调度器 |
-| `feibi_pet/pet_widget.py` | 加载主图/随机图、拖放、吃文件与随机动效；若存在 mp4 则调用视频模块 |
-| `feibi_pet/random_movement_mp4.py` | 随机动作 MP4：`QMediaPlayer` + `QVideoWidget`，仅读 `feibi_pet/picture/*.mp4` |
-| `feibi_pet/actions.py` | 随机动作注册表与 `RandomActionScheduler` |
+### 功能概要
 
-扩展随机动作、连接 `file_dropped` 的写法见各文件**中文注释**与上文表格。
+- FFmpeg 命令图形化编辑、执行与日志实现（`Graphic.py`、`ProcessCreator.py`、`LOGGER.py`）
+- 首次运行安装向导：可选下载 FFmpeg（国内镜像）、解压 zip/7z、写 PATH、桌面快捷方式（`SetupGraphic.py`、`InterSystem.py`）
+- 系统托盘：关闭主窗口可隐藏到托盘；退出经挽留窗（`SonGraphic.DetainWindow`）
+- 监视 `Interact.txt`：桌宠拖入文件后，主窗口取**第一个路径**填入输入并可选显示主窗（`interact_watch.py`、`Graphic.apply_interact_drop`）
+
+## 五、菲比桌宠（`feibi_pet/` 包）
+
+### 功能概要
+
+交互能力：
+- 无边框置顶小窗，默认显示主图；支持鼠标拖动窗口（`window.py`、`pet.py`）
+- 随机动作：读取 `feibi_sing.apng`、`feibi_sleep.apng`、`feibi_sleep_2.apng`、`feibi_wake.apng` 等，来实现随机播放
+- 文件拖入事件：切换咬文件立绘；写入 `Interact.txt` 的 `DRAG_FILE="路径"`，供 FGT 读取
+
+### 立绘目录（桌宠专用）
+
+**唯一目录：`feibi_pet/picture/`**（程序不会从 `FGT/picture/` 加载桌宠图）
+
+```text
+feibi_pet/picture/
+  feibi_main.png        # 常态主图（必需）
+  feibi_common.apng     # 常态动态（可选）
+  feibi_bitefile.png    # 拖文件时
+  feibi_hang.png        # 悬挂等（可选）
+  feibi_sing.apng       # 随机：唱歌
+  feibi_sleep.apng      # 随机：睡觉
+  feibi_sleep_2.apng    # 随机：睡觉 2
+  feibi_wake.apng       # 随机：苏醒
+```
+
+### 可调参数（`feibi_pet/config.py`）
+
+| 常量 | 含义                |
+|------|-------------------|
+| `RANDOM_TICK_MS` | 间隔器：随机判定间隔（毫秒）    |
+| `RANDOM_CHANCE` | 概率器：每次判定触发概率（0～1） |
+| `RANDOM_COOLDOWN_MS` | 冷静器：两次随机动作最短间隔    |
+| `ON_TOP` | 是否窗口置顶            |
+| `PET_MAX_W` / `PET_MAX_H` | 显示最大宽高（像素）        |
+
+
+### 与主程序联动
+
+桌宠 `dropEvent` 写入示例：
+
+```text
+DRAG_FILE="D:/media/example.mp4"
+SHOW_MAIN=1
+```
+
+FGT 监视文件变化后读取 `DRAG_FILE`，将**第一个**路径填入主界面输入框。
+
+开发态：主程序 `subprocess` 启动 `python main_feibi.py`。  
+打包态：同一 `FGT.exe` 带参数 `--feibi-pet` 启动桌宠（`premain.py` 分支）。
 
 ---
 
-## 六、注意事项
+## 六、`Interact.txt`
 
-- 角色与《鸣潮》素材版权归官方所有，请遵守官方二创与分发规范。
-- 桌宠为 **Tool** 类型窗口，任务栏表现因系统而异；结束进程可用任务管理器或自行加托盘菜单。
+位于**项目根**（开发）或 **exe 同目录**（打包）。  
+首次不存在时由程序创建/复制模板。  
+桌宠只负责写入；FGT 负责监视与后续操作。
 
 ---
 
-## 七、版本说明
+## 七、依赖
 
-- **0.2.2**：新增 `feibi_pet/random_movement_mp4.py`，随机动作可播放 `feibi_sing` / `feibi_sleep` / `feibi_wake` 的 **MP4**（与静态图同目录，优先 MP4）。
-- **0.2.1**：立绘仅使用 **`feibi_pet/picture`**（含主图与 sing/sleep/wake）；不在项目根另建 `picture/`；补充中文注释与本文。
-- **0.2.0**：引入 sing/sleep/wake 随机动作与中文说明初版。
+见 `requirements.txt`：
+
+- PySide6
+- opencv-python
+- numpy
+
+系统还需已安装 **ffmpeg**（可通过 FGT 安装向导下载，或自行配置 PATH）。\
+拉取资源加速（采取GyanD 官方包，经国内 GitHub 加速镜像）\
+解压 `.7z` 安装包需本机 **7-Zip**（或 `7z` 在 PATH 中）。
+
+---
+
+## 八、二创与版权
+
+- 关于feibi_pet:《鸣潮》角色与相关素材一切版权归官方所有，请遵守官方二创与分发规范。
+- 关于FGT:ffmpeg为Fabrice Bellard于2000年发起的开源项目，全称Fast Forward MPEG,遵守GPL/LGPL的开源协议
+
+---
+
+## 九、版本说明（仓库合并后）
+
+- **合并版**：`premain.py` 统一入口；FGT 主程序 + `feibi_pet` 子进程；`Interact.txt` 联动；PyInstaller 单文件打包。
+- 桌宠单包时期说明（APNG 随机、仅 `feibi_pet/picture` 等）仍适用于 **`feibi_pet/`** 目录行为，主程序以 **`FGT/`** 与本文「启动流程」「配置文件」为准。
+
+## 十、作者有话说
+
+
+
+整个项目用 **Python** 编写，没有任何复杂算法；甚至后端完全采用最简单的**拼接**形式  
+为了方便理解，每个方法都配有中文注释
+
+
+
+因为蒟蒻全栈 **MCM-KO** 本人的前端能力实在有限，UI有亿点点丑  
+因此把 **`feibi_pet`** 与 **`FGT`** 拆成两个包：若你**只要桌宠**，拉取 `feibi_pet/` 与 `main_feibi.py` 即可。
+
+### 关于二创桌宠
+
+桌宠侧尽量保持 **可替换、可扩展**：
+
+| 你想做的事 | 建议改哪里 |
+|------------|------------|
+| 换立绘 / 换动图 | `feibi_pet/picture/` 放资源 → `config.py` 改路径 |
+| 加新的随机动作 | `config.py` 的 `RANDOM_STEMS` + 对应 `.apng` |
+| 加全新交互逻辑 | 参考 `pet.py` 现有写法仿写一段即可 |
+
+### 欢迎反馈
+
+欢迎各位大佬对我们的结构和代码提出批评与指正！
+

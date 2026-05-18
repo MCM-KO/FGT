@@ -1,3 +1,4 @@
+from typing import NoReturn
 
 """
 高级图形库，是对pyside6中原生控件
@@ -8,14 +9,12 @@ from PySide6.QtGui import QPixmap, QPainter, QPainterPath, Qt
 
 
 class UQLabel:
-    def __new__(self):
+    def __new__(cls) -> NoReturn:
         raise Exception("no instance")
 
-    """
-    对目标标签设置大小，并裁剪成圆
-    """
     @staticmethod
-    def Round(Label,picture_file,width,length):
+    def Round(Label, picture_file, width, length) -> None:
+        """对目标标签设置大小，并裁剪成圆"""
         Label.setMinimumSize(width, length)
         Label.setMaximumSize(width, length)
         size = Label.size()
@@ -34,4 +33,3 @@ class UQLabel:
         painter.drawPixmap(0, 0, src)
         painter.end()
         Label.setPixmap(result)
-

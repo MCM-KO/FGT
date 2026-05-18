@@ -85,7 +85,7 @@ def main() -> None:
     from PySide6.QtGui import QGuiApplication
     from PySide6.QtWidgets import QApplication
 
-    # 透明桌宠 + 多媒体在部分显卡驱动上于首次合成时本机崩溃；软件 OpenGL 常可规避。
+    #配置openGL来避免图形化界面配置
     if sys.platform == "win32" and os.environ.get("FEIBI_SOFTWARE_OPENGL", "1").strip() != "0":
         QCoreApplication.setAttribute(Qt.ApplicationAttribute.AA_UseSoftwareOpenGL, True)
         _feibi_log("已启用 AA_UseSoftwareOpenGL（环境变量 FEIBI_SOFTWARE_OPENGL=0 可关闭）")
