@@ -8,7 +8,12 @@ import re
 from FGT.InterSystem import Execute
 from FGT.ProcessCreator import Creator
 from FGT.SonGraphic import DetainWindow
-from FGT.config_state import ensure_setup_file, load_configuration, save_configuration
+from FGT.config_state import (
+    ensure_setup_file,
+    load_configuration,
+    mark_setup_complete,
+    save_configuration,
+)
 from FGT.paths import UI_SETUP
 
 
@@ -209,12 +214,9 @@ class MainWindow(QMainWindow):
                 Execute.Set_ink()
 
             configuration = load_configuration()
-            configuration[1] = re.sub(
-                re.search(r"\"(.*)\"", configuration[1]).group(1),
-                "YES",
-                configuration[1],
-            )
+            configuration[1] = 'ISSET="YES"'
             save_configuration(configuration)
+            mark_setup_complete()
             self.ui.label_5.setText("Bingo！完成，请点击开始进入主界面，啾！")
             self.ui.startButton.show()
             self.ui.startButton.setEnabled(True)

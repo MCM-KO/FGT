@@ -1,2 +1,2 @@
-DRAG_FILE="G:/L-pythonproject/MAX/FGT/FGT/UI/spin_up.svg"
+DRAG_FILE="G:/L-pythonproject/MAX/FGT/FGT/paths.py"
 SHOW_MAIN=1

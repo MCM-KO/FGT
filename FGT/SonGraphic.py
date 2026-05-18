@@ -133,6 +133,7 @@ class LogWindow(QObject):
         """日志窗口初始化（单例模式，仅首次构造时加载 UI）"""
         if getattr(self, "_initialized", False):
             return
+
         super().__init__()
         self._initialized = True
         self.ui = QUiLoader().load(UI_LOG)

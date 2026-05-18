@@ -5738,8 +5738,8 @@ font-family: &quot;KaiTi&quot;;   /* 楷体 */
             <rect>
              <x>0</x>
              <y>0</y>
-             <width>526</width>
-             <height>567</height>
+             <width>100</width>
+             <height>30</height>
             </rect>
            </property>
            <widget class="QWidget" name="horizontalLayoutWidget">

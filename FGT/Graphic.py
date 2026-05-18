@@ -343,7 +343,7 @@ class MainWindow(QMainWindow,QObject):
         ]
         if paths:
             for pl in PL:
-                getattr(self,pl).emit(pl)
+                getattr(self,pl).emit(paths[0])
         self.show_main_window()
 
     def quit_application(self) -> None:

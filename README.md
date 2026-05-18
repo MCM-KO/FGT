@@ -65,7 +65,7 @@ pip install -r requirements.txt
 python premain.py
 ```
 
-- 若 `setup_list.txt` 中 `ISSET` 不为 `"YES"`（或路径仍为占位符），先显示 **FGT 安装向导**。
+- 若未完成首次配置（`setup_list.txt` 第 `[1]` 行 `ISSET` 不为 `"YES"`，且不存在 `Configuration/installed.ok`），先显示 **FGT 安装向导**；向导内点「开始」后会写入 `ISSET="YES"` 并创建 `installed.ok`，此后启动均直接进入主界面。
 - 向导完成后点「开始」，同一进程进入 **FGT 主窗口**，并拉起 **桌宠子进程**，完成二者的互动。
 - 若仅调试桌宠，丢弃FGT图形化界面：`python main_feibi.py`
 

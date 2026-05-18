@@ -70,10 +70,8 @@ WIKI_VIDEO = ps("WIKI", "video.txt")
 APP_ICON = ps("picture", "Applcon.ico")
 
 # 运行时会改写的路径（打包后落在 exe 旁）
-CONFIG_SETUP = _writable(
-    "Configuration", "setup_list.txt",
-    bundle_parts=("Configuration", "setup_list.txt"),
-)
+# 配置仅由 config_state.ensure_setup_file 生成/修复，勿从包内复制（避免误带 ISSET=YES）
+CONFIG_SETUP = _writable("Configuration", "setup_list.txt")
 SYSTEM_LOG = _writable("logger", "system_log.txt", bundle_parts=("logger", "system_log.txt"))
 FF_LOG = _writable("logger", "ff_log.txt", bundle_parts=("logger", "ff_log.txt"))
 BUFFER_PHOTO = _writable("buffer", "bufferphoto.jpg", bundle_parts=("buffer", "bufferphoto.jpg"))

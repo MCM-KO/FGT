@@ -4,7 +4,7 @@ import sys
 
 from PySide6.QtWidgets import QApplication
 
-from FGT.config_state import ensure_setup_file, needs_setup, read_isset
+from FGT.config_state import ensure_setup_file, is_configured
 from FGT.paths import PKG_DIR
 from FGT import SetupGraphic
 
@@ -21,13 +21,15 @@ if __name__ == "__main__":
     ensure_setup_file()
     app = QApplication(sys.argv)
 
-    if needs_setup():
+    if not is_configured():
         w = SetupGraphic.MainWindow()
         w.resize(400, 300)
         w.show()
+        w.raise_()
+        w.activateWindow()
         app.exec()
         w.deleteLater()
-        if read_isset() != "YES":
+        if not is_configured():
             sys.exit(0)
 
     from main import launch_main
